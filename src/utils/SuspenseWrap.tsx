@@ -1,18 +1,19 @@
-import { FC, Suspense, useEffect, useState } from "react";
+import { FC, Suspense, SuspenseProps } from "react";
 
-export const SuspenseWrap: FC<{ fallback?: JSX.Element }> = ({
+const isClientSide = typeof window !== "undefined";
+
+export const SuspenseWrap: FC<SuspenseProps> = ({
   children,
-  fallback = null
+  fallback,
+  ...suspenseProps
 }) => {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    setReady(true);
-  }, [setReady]);
-
-  if (ready && typeof window !== "undefined") {
-    return <Suspense fallback={fallback}>{children}</Suspense>;
+  if (isClientSide) {
+    return (
+      <Suspense fallback={fallback} {...suspenseProps}>
+        {children}
+      </Suspense>
+    );
   }
 
-  return <>{children}</>;
+  return <>{fallback}</>;
 };
