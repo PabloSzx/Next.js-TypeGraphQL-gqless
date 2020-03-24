@@ -1,17 +1,23 @@
 import "isomorphic-unfetch";
 
-import { NextPage } from "next";
-import { AppProps } from "next/app";
+import App, { AppContext } from "next/app";
 import ssrPrepass from "react-ssr-prepass";
 
-const MyApp: NextPage<AppProps, {}> = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
-};
+class MyApp extends App {
+  render() {
+    const { Component, pageProps } = this.props;
 
-MyApp.getInitialProps = async ({ AppTree, ...pageProps }) => {
-  await ssrPrepass(<AppTree pageProps={pageProps} />);
+    return <Component {...pageProps} />;
+  }
+}
 
-  return {};
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const pageProps = await App.getInitialProps(appContext);
+
+  console.log(17, { pageProps });
+  await ssrPrepass(<appContext.AppTree pageProps={pageProps} />);
+
+  return pageProps;
 };
 
 export default MyApp;

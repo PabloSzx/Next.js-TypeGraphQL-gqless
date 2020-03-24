@@ -42,5 +42,9 @@
   "gqless": {
     "url": "http://localhost:3000/api/graphql",
     "outputDir": "src/graphql"
+  },
+  "resolutions": {
+    "**/react": "16.13.1",
+    "**/react-dom": "16.13.1"
   }
 }
