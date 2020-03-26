@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@gqless/react": "^0.0.1-alpha.28",
+    "@pablosz/gqless-react": "^0.0.5",
     "express": "^4.17.1",
     "express-gql": "^0.0.4",
     "gqless": "^0.0.1-alpha.28",
