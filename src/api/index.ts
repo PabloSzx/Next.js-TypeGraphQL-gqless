@@ -7,46 +7,30 @@ import {
   renderPlaygroundPage,
 } from "graphql-playground-html";
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  Arg,
-  buildSchemaSync,
-  Field,
-  ObjectType,
-  Query,
-  Resolver,
-} from "type-graphql";
+import { buildSchemaSync } from "type-graphql";
+
+import * as resolvers from "./resolvers";
 
 const app = Fastify({
   logger: true
 });
 
-@ObjectType()
-class SpecialType {
-  @Field()
-  asd: string;
-}
-
-@Resolver()
-class TestResolver {
-  @Query(() => SpecialType)
-  async helloWorld(@Arg("xd") xd: string) {
-    return {
-      asd: "Hello world GQL" + xd
-    };
-  }
-}
-
 app.register(GQL, {
   schema: buildSchemaSync({
-    resolvers: [TestResolver]
+    resolvers: Object.values(resolvers) as any
   }),
   jit: 1,
-  path: "/api/graphql"
+  path: "/api/graphql",
+  routes: true,
+  graphiql: false,
+  ide: false
 });
 
-const playgroundOptions: RenderPageOptions = {};
+const playgroundOptions: RenderPageOptions = {
+  endpoint: "/api/graphql"
+};
 
-app.get("*", (_req, res) => {
+app.get("/api/playground", (req, res) => {
   res.type("text/html");
   res.send(renderPlaygroundPage(playgroundOptions));
 });
