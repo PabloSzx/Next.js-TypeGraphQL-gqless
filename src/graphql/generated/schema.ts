@@ -52,6 +52,27 @@ export const schema = {
       }
     );
   },
+  get Mutation() {
+    return new ObjectNode(
+      {
+        get mutateHelloWorld() {
+          return new FieldNode(
+            schema.String,
+            new Arguments(
+              {
+                get asd() {
+                  return new ArgumentsField(schema.String, false);
+                }
+              },
+              true
+            ),
+            false
+          );
+        }
+      },
+      { name: "Mutation", extension: ((extensions as any) || {}).Mutation }
+    );
+  },
   get __Schema() {
     return new ObjectNode(
       {

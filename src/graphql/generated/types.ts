@@ -42,6 +42,18 @@ type t_SpecialType = FieldsType<
 >;
 
 /**
+ * @name Mutation
+ * @type OBJECT
+ */
+type t_Mutation = FieldsType<
+  {
+    __typename: t_String<"Mutation">;
+    mutateHelloWorld: FieldsTypeArg<{ asd: string }, t_String>;
+  },
+  Extension<"Mutation">
+>;
+
+/**
  * @name __Schema
  * @type OBJECT
  */
@@ -236,6 +248,12 @@ export type String = TypeData<t_String>;
  * @type OBJECT
  */
 export type SpecialType = TypeData<t_SpecialType>;
+
+/**
+ * @name Mutation
+ * @type OBJECT
+ */
+export type Mutation = TypeData<t_Mutation>;
 
 /**
  * @name __Schema
